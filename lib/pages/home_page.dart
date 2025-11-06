@@ -1,10 +1,30 @@
+import 'dart:async'; // Timer Countdown
 import 'package:flutter/material.dart';
+import 'package:carousel_slider/carousel_slider.dart'; // Carousel Slider
+import 'package:http/http.dart' as http; // ambil data API JSON
+import 'dart:convert'; // Decode JSON
+import 'package:geolocator/geolocator.dart'; // GPS
+import 'package:geocoding/geocoding.dart'; // Konversi GPS
+import 'package:intl/intl.dart'; // Formatter Number
+import 'package:permission_handler/permission_handler.dart'; // Izin Handler
+import 'package:shared_preferences/shared_preferences.dart'; // Cache Lokal
+import 'package:string_similarity/string_similarity.dart'; // Fuzzy Match String
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  final CarouselController _controller = CarouselController();
+  int _curentIndex = 0;
+
   final posterList = const <String>[
-    
+        'assets/images/ramadhan_kareem.png',
+        'assets/images/idl_fitr.png',
+        'assets/images/idl_adh.png',
   ];
 
   @override
@@ -119,9 +139,32 @@ class HomePage extends StatelessWidget {
                 ),
               ),
             ),
+
+            // ======================================
+            // Carousel Section
+            // =====================================
+            _buildCarouselSelection(),
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildCarouselSelection() {
+    return Column(
+      children: [
+        const SizedBox(height: 20),
+        CarouselSlider.builder(
+          itemCount: posterList.length,
+          itemBuilder: (context, index, realIndex) {
+          final poster = posterList[index];
+            return Container(
+              child: Image.asset(poster),
+            );
+          },
+          options: CarouselOptions(),
+        ),
+      ],
     );
   }
 }
