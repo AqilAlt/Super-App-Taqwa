@@ -33,112 +33,12 @@ class _HomePageState extends State<HomePage> {
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                width: double.infinity,
-                height: 130,
-                decoration: BoxDecoration(
-                  color: Colors.amber,
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: <Widget>[
-                      InkWell(
-                        onTap: () {},
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Container(
-                            decoration: BoxDecoration(),
-                            child: Column(
-                              children: [
-                                Image.asset('assets/images/ic_menu_doa.png'),
-                                Text(
-                                  'Doa & Dzikir',
-                                  style: TextStyle(
-                                    fontFamily: 'PoppinsRegular',
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                      InkWell(
-                        onTap: () {},
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Container(
-                            decoration: BoxDecoration(),
-                            child: Column(
-                              children: [
-                                Image.asset('assets/images/ic_menu_zakat.png'),
-                                Text(
-                                  'Zakat',
-                                  style: TextStyle(
-                                    fontFamily: 'PoppinsRegular',
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                      InkWell(
-                        onTap: () {},
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Container(
-                            decoration: BoxDecoration(),
-                            child: Column(
-                              children: [
-                                Image.asset(
-                                  'assets/images/ic_menu_jadwal_sholat.png',
-                                ),
-                                Text(
-                                  'Jadwal Sholat',
-                                  style: TextStyle(
-                                    fontFamily: 'PoppinsRegular',
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                      InkWell(
-                        onTap: () {},
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Container(
-                            decoration: BoxDecoration(),
-                            child: Column(
-                              children: [
-                                Image.asset(
-                                  'assets/images/ic_menu_video_kajian.png',
-                                ),
-                                Text(
-                                  'Video Kajian',
-                                  style: TextStyle(
-                                    fontFamily: 'PoppinsRegular',
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
+
+            // ======================================
+            // Menu Section
+            // =====================================
+
+            _buildMenuGridSection(),
 
             // ======================================
             // Carousel Section
@@ -149,6 +49,78 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
+
+// ignore: slash_for_doc_comments
+/**
+ * ============================
+ * Menu Item Widget
+ * ============================
+ */
+
+Widget _buildMenuItem(
+  String iconPath,
+  String title,
+  String routeName,
+  ) {
+  return Column(
+    children: [
+      Image.asset(iconPath, width: 35,),
+      Text(title)
+    ],
+  );
+}
+
+// ignore: slash_for_doc_comments
+/**
+ * ============================
+ * Menu Grid Section Widget
+ * ============================
+ */
+
+Widget _buildMenuGridSection() {
+  return Padding(
+    padding: const EdgeInsets.all(8.0),
+    child: GridView.count(
+      crossAxisCount: 4,
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      children: [
+        _buildMenuItem(
+          'assets/images/ic_menu_doa.png', // IconPath
+          'Doa Harian', // Title
+          '/doa', // RouteName
+          ),
+
+        _buildMenuItem(
+          'assets/images/ic_menu_doa.png', // IconPath
+          'Jadwal Sholat', // Title
+          '/sholat', // RouteName
+          ),
+          
+        _buildMenuItem(
+          'assets/images/ic_menu_doa.png', // IconPath
+          'Video Kajian', // Title
+          '/kajian', // RouteName
+          ),
+
+        _buildMenuItem(
+          'assets/images/ic_menu_doa.png', // IconPath
+          'Zakat', // Title
+          '/zakat', // RouteName
+          ),
+
+      ],
+      ),
+  );
+  }
+
+// ignore: slash_for_doc_comments
+/**
+ * ============================
+ * Carousel Section
+ * ============================
+ */
+
 
   Widget _buildCarouselSelection() {
     return Column(
