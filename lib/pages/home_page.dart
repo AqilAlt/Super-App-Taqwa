@@ -20,13 +20,43 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final CarouselController _controller = CarouselController();
   int _currentIndex = 0;
+  bool _isLoading = true;
+  Duration? _timeRemaining;
+  Timer? _countdownTimer;
+  String _location = "Mengambil Lokasi....";
+  String _prayTime = "Loading...";
+  String _backgroundImage = 'assets/images/bg_morning.png';
+  List<dynamic>? _jadwalSholat;
   
-
   final posterList = const <String>[
     'assets/images/ramadhan_kareem.png',
     'assets/images/idl_fitr.png',
     'assets/images/idl_adh.png',
   ];
+
+  // fungsi text remaining waktu sholat
+  String _formatDuration(Duration d) {
+    final hours = d.inHours;
+    final minute = d.inMinutes.remainder(60);
+    return "$hours jam $minute menit lagi";
+  }
+
+
+  // state untuk dijalankan diawal
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  Future<String> _getBackgroundImage(DateTime now) async {
+    if (now.hour < 12) {
+      return 'assets/images/bg_morning.png';
+    } else if (now.hour < 18) {
+      return 'assets/images/bg_morning.png';
+    }
+
+    return 'assets/images/bg_night.png';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +68,7 @@ class _HomePageState extends State<HomePage> {
             // Menu Waktu Sholat By Lokasi
             // =====================================
             _buildHeroSection(),
+            const SizedBox(height: 65),
 
             // ======================================
             // Menu Section
@@ -72,8 +103,8 @@ class _HomePageState extends State<HomePage> {
             ),
             image: DecorationImage(
               image: AssetImage('assets/images/bg_afternoon.png'),
-              fit: BoxFit.cover
-            )
+              fit: BoxFit.cover,
+            ),
           ),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
@@ -81,19 +112,87 @@ class _HomePageState extends State<HomePage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-              Text(
-                'Assalamu\'alaikum',
-                style: TextStyle(
-                  fontFamily: 'PoppinsRegular', fontSize: 16, color: Colors.white70),
+                Text(
+                  'Assalamu\'alaikum',
+                  style: TextStyle(
+                    fontFamily: 'PoppinsRegular',
+                    fontSize: 16,
+                    color: Colors.white70,
+                  ),
                 ),
                 Text(
-                  'Ngargoyoso', 
-                  style: TextStyle(fontFamily: 'PoppinsSemiBold', fontSize: 22, color: Colors.white),
+                  'Ngargoyoso',
+                  style: TextStyle(
+                    fontFamily: 'PoppinsSemiBold',
+                    fontSize: 22,
+                    color: Colors.white,
+                  ),
                 ),
-                Text(DateFormat(
-                  'HH:mm').format(DateTime.now()), 
-                  style: TextStyle(fontFamily: 'PoppinsBold', fontSize: 50, height: 1.2, color: Colors.white),
-                  )
+                Text(
+                  DateFormat('HH:mm').format(DateTime.now()),
+                  style: TextStyle(
+                    fontFamily: 'PoppinsBold',
+                    fontSize: 50,
+                    height: 1.2,
+                    color: Colors.white,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+
+        Positioned(
+          bottom: -55,
+          left: 20,
+          right: 20,
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(20),
+              boxShadow: [
+                BoxShadow(
+                  blurRadius: 2,
+                  offset: Offset(0, 4),
+                  color: Colors.amber.withOpacity(0.4),
+                ),
+              ],
+            ),
+            padding: EdgeInsets.symmetric(vertical: 16, horizontal: 14),
+            child: Column(
+              children: [
+                Text(
+                  'Waktu Sholat Berikutnya..',
+                  style: TextStyle(
+                    fontFamily: 'PoppinsRegular',
+                    fontSize: 14,
+                    color: Colors.grey,
+                  ),
+                ),
+                Text(
+                  'ASHAR',
+                  style: TextStyle(
+                    fontFamily: 'PoppinsBold',
+                    fontSize: 20,
+                    color: Colors.amber,
+                  ),
+                ),
+                Text(
+                  '14:22',
+                  style: TextStyle(
+                    fontFamily: 'PoppinsBold',
+                    fontSize: 28,
+                    color: Colors.black38,
+                  ),
+                ),
+                Text(
+                  '5 Jam 10 Menit',
+                  style: TextStyle(
+                    fontFamily: 'PoppinsRegular',
+                    fontSize: 13,
+                    color: Colors.grey,
+                  ),
+                ),
               ],
             ),
           ),
